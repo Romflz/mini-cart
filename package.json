@@ -9,7 +9,7 @@
     "build:backend": "pnpm --filter backend build",
     "build:frontend": "pnpm --filter frontend build",
     "start:backend": "pnpm --filter backend start",
-    "db:init": "pnpm --filter backend exec tsx src/db/seed.ts",
+    "db:init": "pnpm --filter backend exec tsx src/db/init/index.ts",
     "db:init:prod": "pnpm --filter backend db:seed",
     "format": "prettier --write .",
     "format:check": "prettier --check ."

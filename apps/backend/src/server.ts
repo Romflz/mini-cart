@@ -1,38 +1,23 @@
 import { serve } from '@hono/node-server'
 import { serveStatic } from '@hono/node-server/serve-static'
 import { Hono } from 'hono'
-import { authenticateUser } from './db/users'
-import { createToken } from './utils/jwt'
-import { authMiddleware } from './middleware/auth'
+import auth from './routes/auth'
+import products from './routes/products'
+import basket from './routes/basket'
 
 const app = new Hono()
 
-// API routes (We make a new Hono intance, unlike express that often runs on single instance. This is idiomatic)
-// For more info please look at: https://hono.dev/examples/grouping-routes-rpc
+// API routes
 const api = new Hono()
 
-// Public routes (no auth required)
-api.post('/auth/login', async c => {
-  const { username, password } = await c.req.json()
-
-  const user = await authenticateUser(username, password)
-  if (!user) {
-    return c.json({ error: 'Invalid credentials' }, 401)
-  }
-
-  const token = await createToken(user)
-  return c.json({ token, user })
-})
-
-// Protected routes (auth required)
-api.get('/auth/me', authMiddleware, c => {
-  const user = c.get('user')
-  return c.json({ user })
-})
+api.route('/auth', auth)
+api.route('/products', products)
+api.route('/basket', basket)
 
 app.route('/api', api)
 
 // Serve static files from public folder
+// When we build, our frontend dist will be in the backend public directory
 app.use('*', serveStatic({ root: './public' }))
 app.use('*', serveStatic({ root: './public', path: 'index.html' }))
 

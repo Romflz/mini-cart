@@ -2,12 +2,14 @@ import { createWebHistory, createRouter } from 'vue-router'
 
 import GridPage from '../pages/HomePage.vue'
 import LoginPage from '../pages/LoginPage.vue'
+import BasketPage from '../pages/BasketPage.vue'
 import NotFoundPage from '../pages/NotFoundPage.vue'
 import { useUserStore } from '../store/user'
 
 const routes = [
   { path: '/login', component: LoginPage, meta: { guestOnly: true } },
   { path: '/', component: GridPage },
+  { path: '/basket', component: BasketPage },
   // 404 catchall route (must be last)
   {
     path: '/:pathMatch(.*)*',

@@ -1,6 +1,6 @@
 import type { Context, Next } from 'hono'
 import { extractToken, verifyToken } from '../utils/jwt'
-import { findUserById } from '../db/users'
+import { findUserById } from '../db/queries'
 import type { SafeUser } from '@cep/shared'
 
 // Extend Honos context to include user.

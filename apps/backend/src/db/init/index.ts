@@ -1,5 +1,6 @@
-import { resetDatabase, initDatabase, seedDatabase } from './init'
-import { closeDatabase } from './client'
+import { resetDatabase, initDatabase } from './init'
+import { seedDatabase } from './seed'
+import { closeDatabase } from '../client'
 
 async function main() {
   console.log('Initializing db...')
