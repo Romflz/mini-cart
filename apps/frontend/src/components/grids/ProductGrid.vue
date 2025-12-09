@@ -34,8 +34,8 @@
 
 <script setup lang="ts">
 import type { Product } from '@cep/shared'
-import ProductCard from './cards/ProductCard.vue'
-import ProductCardSkeleton from './skeletons/ProductCardSkeleton.vue'
+import ProductCard from '../cards/ProductCard.vue'
+import ProductCardSkeleton from '../skeletons/ProductCardSkeleton.vue'
 
 defineProps<{
   products: Product[]

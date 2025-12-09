@@ -18,8 +18,8 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import DefaultLayout from '../layouts/DefaultLayout.vue'
-import ProductFilter from '../components/ProductFilter.vue'
-import ProductGrid from '../components/ProductGrid.vue'
+import ProductFilter from '../components/ui/ProductFilter.vue'
+import ProductGrid from '../components/grids/ProductGrid.vue'
 import { useProductStore } from '../store/product'
 import { useBasketStore } from '../store/basket'
 import type { ProductType } from '@cep/shared'
