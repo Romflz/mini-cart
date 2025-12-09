@@ -53,6 +53,10 @@
             Demo: demo_user / Password123
           </p>
 
+          <p v-if="error" class="text-xs text-red-500 text-center">
+            {{ error }}
+          </p>
+
           <button
             type="submit"
             class="w-full rounded-xl bg-linear-to-r from-blue-600 to-purple-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-500/30 transition-all hover:shadow-xl hover:shadow-blue-500/40 hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 active:scale-[0.98]"
@@ -74,12 +78,17 @@ import UserIcon from '../assets/icons/user.svg'
 
 const username = ref('')
 const password = ref('')
+const error = ref('')
 const router = useRouter()
 const userStore = useUserStore()
 
 async function handleLogin() {
-  // TODO
-  // await userStore.login()
-  // router.push('/')
+  error.value = ''
+  try {
+    await userStore.login(username.value, password.value)
+    router.push('/')
+  } catch {
+    error.value = 'Invalid username or password'
+  }
 }
 </script>
