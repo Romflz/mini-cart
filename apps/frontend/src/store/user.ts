@@ -32,10 +32,8 @@ export const useUserStore = defineStore('user', () => {
         },
       })
 
-      console.log(res)
       if (res.ok) {
         const data: MeResponse = await res.json()
-        console.log(data)
         username.value = data.user.loginName
         isLoggedIn.value = true
       } else {
