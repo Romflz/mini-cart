@@ -15,6 +15,9 @@ export interface User {
   password: string
 }
 
+// Safe user (no password, for API responses)
+export type SafeUser = Omit<User, 'password'>
+
 // Basket types
 export interface Basket {
   id: number

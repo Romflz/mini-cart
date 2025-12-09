@@ -75,7 +75,7 @@ export async function seedDatabase() {
     }
 
     // Insert sample users with hashed passwords
-    const hashedPassword1 = await bcrypt.hash('password123', SALT_ROUNDS)
+    const hashedPassword1 = await bcrypt.hash('Password123', SALT_ROUNDS)
 
     await client.query(
       `INSERT INTO "User" (LoginName, Password) 

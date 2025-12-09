@@ -14,6 +14,9 @@ importers:
 
   apps/backend:
     dependencies:
+      '@cep/shared':
+        specifier: workspace:*
+        version: link:../../packages/shared
       '@hono/node-server':
         specifier: ^1.19.6
         version: 1.19.6(hono@4.10.7)
