@@ -1,11 +1,22 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
+import type { SafeUser } from '@cep/shared'
 
 const TOKEN_KEY = 'jwt'
+
+interface AuthResponse {
+  token: string
+  user: SafeUser
+}
+
+interface MeResponse {
+  user: SafeUser
+}
 
 export const useUserStore = defineStore('user', () => {
   const isLoggedIn = ref(false)
   const isLoading = ref(true)
+  const username = ref<string | null>(null)
 
   async function init() {
     const token = localStorage.getItem(TOKEN_KEY)
@@ -21,7 +32,11 @@ export const useUserStore = defineStore('user', () => {
         },
       })
 
+      console.log(res)
       if (res.ok) {
+        const data: MeResponse = await res.json()
+        console.log(data)
+        username.value = data.user.loginName
         isLoggedIn.value = true
       } else {
         localStorage.removeItem(TOKEN_KEY)
@@ -33,30 +48,33 @@ export const useUserStore = defineStore('user', () => {
     }
   }
 
-  async function login(username: string, password: string) {
+  async function login(loginName: string, password: string) {
     const res = await fetch('/api/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password }),
+      body: JSON.stringify({ username: loginName, password }),
     })
 
     if (!res.ok) {
       throw new Error('Login failed')
     }
 
-    const data = await res.json()
+    const data: AuthResponse = await res.json()
     localStorage.setItem(TOKEN_KEY, data.token)
+    username.value = data.user.loginName
     isLoggedIn.value = true
   }
 
   function logout() {
     localStorage.removeItem(TOKEN_KEY)
+    username.value = null
     isLoggedIn.value = false
   }
 
   return {
     isLoggedIn,
     isLoading,
+    username,
     init,
     login,
     logout,

@@ -1,4 +1,11 @@
 <template>
-  <h1>Default Layout</h1>
-  <slot></slot>
+  <div class="min-h-screen bg-gray-50">
+    <Header />
+    <main class="mx-auto max-w-7xl px-4 py-6">
+      <slot></slot>
+    </main>
+  </div>
 </template>
+<script setup lang="ts">
+import Header from '../components/Header.vue'
+</script>
