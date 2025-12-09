@@ -1,8 +1,9 @@
 import { serve } from '@hono/node-server'
 import { serveStatic } from '@hono/node-server/serve-static'
 import { Hono } from 'hono'
-import { authenticateUser, findUserById } from './db/users'
-import { createToken, verifyToken, extractToken } from './utils/jwt'
+import { authenticateUser } from './db/users'
+import { createToken } from './utils/jwt'
+import { authMiddleware } from './middleware/auth'
 
 const app = new Hono()
 
@@ -10,6 +11,7 @@ const app = new Hono()
 // For more info please look at: https://hono.dev/examples/grouping-routes-rpc
 const api = new Hono()
 
+// Public routes (no auth required)
 api.post('/auth/login', async c => {
   const { username, password } = await c.req.json()
 
@@ -22,22 +24,9 @@ api.post('/auth/login', async c => {
   return c.json({ token, user })
 })
 
-api.get('/auth/me', async c => {
-  const token = extractToken(c.req.header('authorization'))
-  if (!token) {
-    return c.json({ error: 'Unauthorized' }, 401)
-  }
-
-  const payload = await verifyToken(token)
-  if (!payload) {
-    return c.json({ error: 'Invalid token' }, 401)
-  }
-
-  const user = await findUserById(payload.sub)
-  if (!user) {
-    return c.json({ error: 'User not found' }, 401)
-  }
-
+// Protected routes (auth required)
+api.get('/auth/me', authMiddleware, c => {
+  const user = c.get('user')
   return c.json({ user })
 })
 
