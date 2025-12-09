@@ -48,3 +48,6 @@ lerna-debug.log*
 
 # Misc
 *.local
+
+# public dist build of frontend
+apps/backend/public/

@@ -5,6 +5,12 @@
     "dev": "pnpm run --parallel dev",
     "dev:backend": "pnpm --filter backend dev",
     "dev:frontend": "pnpm --filter frontend dev",
+    "build": "pnpm run build:backend && pnpm run build:frontend",
+    "build:backend": "pnpm --filter backend build",
+    "build:frontend": "pnpm --filter frontend build",
+    "start:backend": "pnpm --filter backend start",
+    "db:init": "pnpm --filter backend exec tsx src/db/seed.ts",
+    "db:init:prod": "pnpm --filter backend db:seed",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
